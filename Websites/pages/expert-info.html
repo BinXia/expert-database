@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- jQuery UI -->
+    <link href="../vendor/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/jquery-ui-1.12.1/style.css" rel="stylesheet">
+
+    <!-- MagicSuggest Combobox -->
+    <link href="../vendor/MagicSuggest/magicsuggest-min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="object-wrapper">
+        <div class="row" style="padding: 0 0 0 15px">
+            <div class="col-lg-12">
+                <h1 class="page-header">南邮盐城大数据研究院专家基础信息</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+
+        </div>
+        <!-- /.row -->
+
+        <div class="row" style="padding: 0 0 0 15px">
+            <div class="col-sm-12" id="ControlPanel">
+                <div class="panel panel-info">
+                    <div class="panel-heading">专家基础信息</div>
+                    <div class="panel-body">
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>姓名：</label>
+                            <input class="col-sm-12" type="text" id="name">
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>身份证号:</label>
+                            <input class="col-sm-12" type="text" id="code">
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>联系电话:</label>
+                            <input class="col-sm-12" type="text" id="phone">
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>电子邮箱:</label>
+                            <input class="col-sm-12" type="text" id="email">
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>单位：</label>
+                            <div id="unit"></div>
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>职务（职称）：</label>
+                            <div id="duty"></div>
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>学历、学位：</label>
+                            <div id="education"></div>
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>专业（产业领域）：</label>
+                            <div id="domain"></div>
+                        </div>
+
+                        <div class="col-sm-3 margin" style="margin-top:10px">
+                            <label>操作类型：</label>
+                            <div id="operation"></div>
+                        </div>
+
+                        <div class="col-sm-9 margin" style="margin-top:10px">
+                            <label>备注：</label>
+                            <input class="col-sm-12" type="text" id="remark">
+                        </div>
+
+                        <div class="col-sm-12 margin" style="margin-top:15px">
+                            <center>
+                                <button id="RefreshTable" type="button" class="btn btn-primary" style="width:20%">刷新列表</button>
+                                <button id="Submit" type="button" class="btn btn-primary" style="width:20%">提交</button>
+                                <button id="BatchUpload" type="button" class="btn btn-primary" style="width:20%">批量上传</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">专家基础信息列表</div>
+                    <div class="panel-body">
+                        <table id="PaperCollectionList" class="display" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <!-- <th>First name</th> -->
+                                    <th>姓名</th>
+                                    <th>身份证号</th>
+                                    <th>联系电话</th>
+                                    <th>电子邮箱</th>
+                                    <th>单位</th>
+                                    <th>职务（职称）</th>
+                                    <th>学历、学位</th>
+                                    <th>专业（产业领域）</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <!-- <th>First name</th> -->
+                                    <th>姓名</th>
+                                    <th>身份证号</th>
+                                    <th>联系电话</th>
+                                    <th>电子邮箱</th>
+                                    <th>单位</th>
+                                    <th>职务（职称）</th>
+                                    <th>学历、学位</th>
+                                    <th>专业（产业领域）</th>
+                                    <th>备注</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+
+
+
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/jquery-ui-1.12.1/jquery-ui.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- MagicSuggest Combobox -->
+    <script src="../vendor/MagicSuggest/magicsuggest.js"></script>
+
+    <!-- Common Configuration -->
+    <script src="../js/common.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.js"></script>
+
+    <!-- Load Sign -->
+    <script src="../js/spin.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        var unitCombobox,           //单位下拉框
+            dutyCombobox,           //职务下拉框
+            educationCombobox,      //学历下拉框
+            domainCombobox,         //专业下拉框
+            operationCombobox,      //操作类型下拉框
+            expertList;             //专家信息列表
+
+        var opts = {
+              lines: 9                      // The number of lines to draw
+            , length: 28                    // The length of each line
+            , width: 23                     // The line thickness
+            , radius: 37                    // The radius of the inner circle
+            , scale: 0.5                    // Scales overall size of the spinner
+            , corners: 1                    // Corner roundness (0..1)
+            , color: '#000'                 // #rgb or #rrggbb or array of colors
+            , opacity: 0.25                 // Opacity of the lines
+            , rotate: 0                     // The rotation offset
+            , direction: 1                  // 1: clockwise, -1: counterclockwise
+            , speed: 1                      // Rounds per second
+            , trail: 60                     // Afterglow percentage
+            , fps: 20                       // Frames per second when using setTimeout() as a fallback for CSS
+            , zIndex: 2e9                   // The z-index (defaults to 2000000000)
+            , className: 'spinner'          // The CSS class to assign to the spinner
+            , top: '50%'                    // Top position relative to parent
+            , left: '50%'                   // Left position relative to parent
+            , shadow: true                  // Whether to render a shadow
+            , hwaccel: false                // Whether to use hardware acceleration
+            , position: 'absolute'          // Element positioning
+        }
+
+
+        $(document).ready(function(){
+            // $.ajaxSettings.async = false;
+
+            // initialize info collector
+            initUnit();
+            initDuty();
+            initEducation();
+
+            initOperation();
+
+        })
+
+
+        // 初始化单位列表
+        function initUnit(){
+            unitCombobox = $('#unit').magicSuggest({
+                displayField: 'unit',
+                valueField: 'id',
+                toggleOnClick: true,
+                resultAsString: true,
+                sortOrder: 'id',
+                maxDropHeight: 145,
+                autoSelect: true,
+                allowFreeEntries: true,
+                useTabKey: true,
+                useZebraStyle: true,
+                maxSelection: 1,
+                placeholder: '请输入单位信息',
+            });
+            url = host+":"+port + "/operation/PullComboInfo";
+            $.getJSON(url,{'type':'unit'},function(data){
+                /* data structure
+                {
+                    'id':1,
+                    'unit':'南京邮电大学'
+                }
+                data structure END */
+                unitCombobox.setData(data);
+                // unitCombobox.setValue([1]);
+            });
+        }
+
+        // 初始化单位列表
+        function initDuty(){
+            dutyCombobox = $('#duty').magicSuggest({
+                displayField: 'duty',
+                valueField: 'id',
+                toggleOnClick: true,
+                resultAsString: true,
+                sortOrder: 'id',
+                maxDropHeight: 145,
+                autoSelect: true,
+                allowFreeEntries: true,
+                useTabKey: true,
+                useZebraStyle: true,
+                maxSelection: 1,
+                placeholder: '请输入职务（职称）信息',
+            });
+            url = host+":"+port + "/operation/PullComboInfo";
+            $.getJSON(url,{'type':'duty'},function(data){
+                /* data structure
+                {
+                    'id':1,
+                    'duty':'教授'
+                }
+                data structure END */
+                dutyCombobox.setData(data);
+                // dutyCombobox.setValue([1]);
+            });
+        }
+
+        // 初始化学位列表
+        function initEducation(){
+            educationCombobox = $('#education').magicSuggest({
+                displayField: 'education',
+                valueField: 'id',
+                toggleOnClick: true,
+                resultAsString: true,
+                sortOrder: 'id',
+                maxDropHeight: 145,
+                autoSelect: true,
+                allowFreeEntries: true,
+                useTabKey: true,
+                useZebraStyle: true,
+                maxSelection: 1,
+                placeholder: '请输入学位（学历）信息',
+            });
+            url = host+":"+port + "/operation/PullComboInfo";
+            $.getJSON(url,{'type':'education'},function(data){
+                /* data structure
+                {
+                    'id':1,
+                    'education':'博士'
+                }
+                data structure END */
+                educationCombobox.setData(data);
+                // educationCombobox.setValue([1]);
+            });
+        }
+
+        // 初始化学位列表
+        function initEducation(){
+            educationCombobox = $('#education').magicSuggest({
+                displayField: 'education',
+                valueField: 'id',
+                toggleOnClick: true,
+                resultAsString: true,
+                sortOrder: 'id',
+                maxDropHeight: 145,
+                autoSelect: true,
+                allowFreeEntries: true,
+                useTabKey: true,
+                useZebraStyle: true,
+                maxSelection: 1,
+                placeholder: '请输入学位（学历）信息',
+            });
+            url = host+":"+port + "/operation/PullComboInfo";
+            $.getJSON(url,{'type':'education'},function(data){
+                /* data structure
+                {
+                    'id':1,
+                    'education':'博士'
+                }
+                data structure END */
+                educationCombobox.setData(data);
+                // educationCombobox.setValue([1]);
+            });
+        }
+        
+
+        // 初始化操作类型列表
+        function initOperation(){
+            operationCombobox = $('#operation').magicSuggest({
+                data: [{'id':1,'name':'新增'},{'id':2,'name':'修改'}],
+                displayField: 'name',
+                valueField: 'id',
+                toggleOnClick: true,
+                resultAsString: true,
+                sortOrder: 'id',
+                maxDropHeight: 145,
+                value: [1],
+                autoSelect: true,
+                allowFreeEntries: false,
+                useTabKey: true,
+                useZebraStyle: true,
+                maxSelection: 1,
+                placeholder: '请选择操作类型',
+                noSuggestionText: '未找到 {{query}}'
+            });
+        }
+
+
+
+
+
+        $("#Submit").click(function(){
+            // check all inputs
+            if ($('#name').val().length == 0) {
+                alert('请输入姓名！');
+            }
+            else if ($('#code').val().length == 0) {
+                alert('请输入身份证号！');
+            }
+            else if (unitCombobox.getValue().length == 0) {
+                alert('请输入单位信息！');
+            }
+            else if (operationCombobox.getValue().length == 0) {
+                alert('请选择操作类型！');
+            }
+            else{
+                // loading sign
+                loadingSign();
+                // insert datum
+                setInterval(insertDatum,1);
+            }
+        })
+
+        $("#RefreshTable").click(function(){
+            expertList.destroy();
+            initExpertList();
+        })
+        
+        
+
+        
+
+
+
+
+
+
+
+
+
+
+
+        // 初始化原纸信息采集列表
+        function initPaperCollectionList(){
+            PaperCollectionList = $('#PaperCollectionList').DataTable( {
+                "processing": true,
+                "serverSide": true,
+                // "scrollX": true,
+                "searchDelay": 1000,
+                "columns": [
+                    {"data":0, "name":"PurchaseDate"},
+                    {"data":1, "name":"PurchaseType"},
+                    {"data":2, "name":"Subsidiary"},
+                    {"data":3, "name":"Brand"},
+                    {"data":4, "name":"Branch"},
+                    {"data":5, "name":"Level"},
+                    {"data":6, "name":"PaperCode"},
+                    {"data":7, "name":"Price"}
+                ],
+                "ajax": $.fn.dataTable.pipeline({
+                    // url: 'https://datatables.net/examples/server_side/scripts/server_processing.php',
+                    url: './server_processing.php',
+                    pages: 1 // number of pages to cache
+                })
+            });
+        }
+
+        // Register an API method that will empty the pipelined data, forcing an Ajax
+        // fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+        $.fn.dataTable.Api.register('clearPipeline()', function(){
+            return this.iterator('table', function (settings) {
+                settings.clearCache = true;
+            });
+        })
+
+        //
+        // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
+        //
+        $.fn.dataTable.pipeline = function (opts) {
+            // Configuration options
+            var conf = $.extend( {
+                pages: 5,     // number of pages to cache
+                url: '',      // script url
+                data: null,   // function or object with parameters to send to the server
+                              // matching how `ajax.data` works in DataTables
+                method: 'POST' // Ajax HTTP method
+            }, opts );
+
+            // Private variables for storing the cache
+            var cacheLower = -1;
+            var cacheUpper = null;
+            var cacheLastRequest = null;
+            var cacheLastJson = null;
+         
+            return function (request, drawCallback, settings) {
+
+                // redefine the format of request
+                // for (var i = 0; i < request.columns.length; i++) {
+                //     delete request.columns[i].search;
+                // };
+                // delete request.draw;
+
+                console.log(request);
+                console.log(settings);
+
+                var ajax          = false;
+                var requestStart  = request.start;
+                var drawStart     = request.start;
+                var requestLength = request.length;
+                var requestEnd    = requestStart + requestLength;
+                 
+                if (settings.clearCache){
+                    // API requested that the cache be cleared
+                    ajax = true;
+                    settings.clearCache = false;
+                }
+                else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
+                    // outside cached data - need to make a request
+                    ajax = true;
+                }
+                else if ( JSON.stringify( request.order )   !== JSON.stringify( cacheLastRequest.order ) ||
+                          JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
+                          JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
+                ){
+                    // properties changed (ordering, columns, searching)
+                    ajax = true;
+                }
+                 
+                // Store the request for checking next time around
+                cacheLastRequest = $.extend( true, {}, request );
+         
+                if (ajax){
+                    // Need data from the server
+                    if ( requestStart < cacheLower ) {
+                        requestStart = requestStart - (requestLength*(conf.pages-1));
+         
+                        if ( requestStart < 0 ) {
+                            requestStart = 0;
+                        }
+                    }
+                     
+                    cacheLower = requestStart;
+                    cacheUpper = requestStart + (requestLength * conf.pages);
+         
+                    request.start = requestStart;
+                    request.length = requestLength*conf.pages;
+         
+                    // Provide the same `data` options as DataTables.
+                    if ($.isFunction (conf.data)){
+                        // As a function it is executed with the data object as an arg
+                        // for manipulation. If an object is returned, it is used as the
+                        // data object to submit
+                        var d = conf.data( request );
+                        if ( d ) {
+                            $.extend( request, d );
+                        }
+                    }
+                    else if ( $.isPlainObject(conf.data) ) {
+                        // As an object, the data given extends the default
+                        $.extend(request, conf.data);
+                    }
+
+                    settings.jqXHR = $.ajax({
+                        "type":     conf.method,
+                        "url":      conf.url,
+                        "data":     request,
+                        "dataType": "json",
+                        "cache":    false,
+                        "contentType": 'application/x-www-form-urlencoded',
+                        "processData": true,
+                        "success":  function (json) {
+                            cacheLastJson = $.extend(true, {}, json);
+                            
+                            if (cacheLower != drawStart){
+                                json.data.splice(0, drawStart-cacheLower);
+                            }
+                            if (requestLength >= -1) {
+                                json.data.splice(requestLength, json.data.length);
+                            }
+                            
+                            drawCallback(json);
+
+                        }
+                    })
+                }
+                else {
+                    json = $.extend(true, {}, cacheLastJson);
+                    json.draw = request.draw; // Update the echo for each response
+                    json.data.splice(0, requestStart-cacheLower);
+                    json.data.splice(requestLength, json.data.length);
+                    
+                    drawCallback(json);
+                }
+            }
+        }
+
+        function loadingSign(){
+            var target = document.getElementById('ControlPanel');
+            spinner = new Spinner(opts).spin(target);
+            $("#ControlPanel *").prop('disabled',true);
+        }
+
+        function loadingSignStop(){
+            $("#ControlPanel *").prop('disabled',false);
+            if (typeof spinner != 'undefined') {
+                spinner.stop();
+            };
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

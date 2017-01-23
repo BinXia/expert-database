@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    
+
+</head>
+
+<body>
+
+    <div id="object-wrapper">
+        <div class="row" style="padding: 0 0 0 15px">
+            <div class="col-lg-12">
+                <h1 class="page-header">HXPP原纸物理性能信息采集</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        
+        <div class="row" style="padding: 0 0 0 15px">
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">原纸采购信息列表</div>
+                    <div class="panel-body">
+                        <table id="PaperCollectionList" class="display" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Position</th>
+                                    <th>Office</th>
+                                    <th>Start date</th>
+                                    <th>Salary</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Position</th>
+                                    <th>Office</th>
+                                    <th>Start date</th>
+                                    <th>Salary</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">原纸测试信息录入</div>
+                    <div class="panel-body">
+                        <div class="col-sm-3">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">原纸产品标识(g/M<sup>2</sup>)</div>
+                                <div class="panel-body">
+                                    <label  class="col-sm-6">子公司:</label>
+                                    <input type="text" id="PurchaseCode" size="10" readonly="true">
+                                    <br>
+                                    <label class="col-sm-6">原纸品牌:</label>
+                                    <input type="text" id="PurchaseCode" size="10" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">原纸克重(g/M<sup>2</sup>)</div>
+                                <div class="panel-body">
+                                    <label  class="col-sm-6">标准值:</label>
+                                    <input type="text" id="PurchaseCode" size="10" readonly="true">
+                                    <br>
+                                    <label class="col-sm-6">测试平均值:</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">耐破强度(Kpa)</div>
+                                <div class="panel-body">
+                                    <label  class="col-sm-6">标准值:</label>
+                                    <input type="text" id="PurchaseCode" size="10" readonly="true">
+                                    <br>
+                                    <label class="col-sm-6">测试平均值:</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">环压强度(N/M)</div>
+                                <div class="panel-body">
+                                    <label  class="col-sm-6">标准值:</label>
+                                    <input type="text" id="PurchaseCode" size="10" readonly="true">
+                                    <br>
+                                    <label class="col-sm-6">测试平均值:</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">预处理环境</div>
+                                <div class="panel-body">
+                                    <label  class="col-sm-6">温度(C):</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                    <br>
+                                    <label class="col-sm-6">湿度(RH%):</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                    <br>
+                                    <label class="col-sm-6">时间(H):</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">测试环境</div>
+                                <div class="panel-body">
+                                    <label  class="col-sm-6">温度(C):</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                    <br>
+                                    <label class="col-sm-6">湿度(RH%):</label>
+                                    <input type="text" id="PurchaseCode" size="10">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">其他</div>
+                                <div class="panel-body">
+                                    <label  class="col-sm-8">含水率测试值:</label>
+                                    <input type="text" id="PurchaseCode" size="5">
+                                    <br>
+                                    <label class="col-sm-8">厚度(mm)测试值:</label>
+                                    <input type="text" id="PurchaseCode" size="5">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-3 margin">
+                            <center>
+                                <button id="Submit" type="button" class="btn btn-primary" style="width:40%">提交</button>
+                                <button id="RefreshTable" type="button" class="btn btn-primary" style="width:40%">刷新列表</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            
+        </div>
+        <!-- /.row -->
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+        var TestDate,                   //检测日期
+            PurchaseTypeCombobox,       //采购类别
+            SubsidiaryCombobox,         //子公司
+            BrandCombobox,              //原纸品牌
+            branchCombobox,             //供应商分厂名
+            LevelCombobox,              //原纸等级
+            PaperCodeCombobox,          //原纸代码
+            PaperCollectionList;        //原纸信息列表
+         
+        $(document).ready(function(){
+            // $.ajaxSettings.async = false;
+
+            // initialize info collector
+            initPaperCollectionList();
+        })
+
+
+        $("#Submit").click(function(){
+
+        })
+
+        $("#RefreshTable").click(function(){
+            PaperCollectionList.destroy();
+            initPaperCollectionList();
+        })
+
+
+        function initPaperCollectionList(){
+            PaperCollectionList = $('#PaperCollectionList').DataTable( {
+                "processing": true,
+                "serverSide": true,
+                "searchDelay": 1000,
+                "lengthMenu": [5,10,25,50,100],
+                "ajax": $.fn.dataTable.pipeline({
+                    url: 'https://datatables.net/examples/server_side/scripts/server_processing.php',
+                    // url: './server_processing.php',
+                    pages: 5 // number of pages to cache
+                })
+            });
+        }
+
+        // Register an API method that will empty the pipelined data, forcing an Ajax
+        // fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+        $.fn.dataTable.Api.register('clearPipeline()', function(){
+            return this.iterator('table', function (settings) {
+                settings.clearCache = true;
+            });
+        })
+
+        //
+        // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
+        //
+        $.fn.dataTable.pipeline = function ( opts ) {
+            // Configuration options
+            var conf = $.extend( {
+                pages: 5,     // number of pages to cache
+                url: '',      // script url
+                data: null,   // function or object with parameters to send to the server
+                              // matching how `ajax.data` works in DataTables
+                method: 'POST' // Ajax HTTP method
+            }, opts );
+         
+            // Private variables for storing the cache
+            var cacheLower = -1;
+            var cacheUpper = null;
+            var cacheLastRequest = null;
+            var cacheLastJson = null;
+         
+            return function ( request, drawCallback, settings ) {
+                var ajax          = false;
+                var requestStart  = request.start;
+                var drawStart     = request.start;
+                var requestLength = request.length;
+                var requestEnd    = requestStart + requestLength;
+                 
+                if ( settings.clearCache ) {
+                    // API requested that the cache be cleared
+                    ajax = true;
+                    settings.clearCache = false;
+                }
+                else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
+                    // outside cached data - need to make a request
+                    ajax = true;
+                }
+                else if ( JSON.stringify( request.order )   !== JSON.stringify( cacheLastRequest.order ) ||
+                          JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
+                          JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
+                ) {
+                    // properties changed (ordering, columns, searching)
+                    ajax = true;
+                }
+                 
+                // Store the request for checking next time around
+                cacheLastRequest = $.extend( true, {}, request );
+         
+                if ( ajax ) {
+                    // Need data from the server
+                    if ( requestStart < cacheLower ) {
+                        requestStart = requestStart - (requestLength*(conf.pages-1));
+         
+                        if ( requestStart < 0 ) {
+                            requestStart = 0;
+                        }
+                    }
+                     
+                    cacheLower = requestStart;
+                    cacheUpper = requestStart + (requestLength * conf.pages);
+         
+                    request.start = requestStart;
+                    request.length = requestLength*conf.pages;
+         
+                    // Provide the same `data` options as DataTables.
+                    if ( $.isFunction ( conf.data ) ) {
+                        // As a function it is executed with the data object as an arg
+                        // for manipulation. If an object is returned, it is used as the
+                        // data object to submit
+                        var d = conf.data( request );
+                        if ( d ) {
+                            $.extend( request, d );
+                        }
+                    }
+                    else if ( $.isPlainObject( conf.data ) ) {
+                        // As an object, the data given extends the default
+                        $.extend( request, conf.data );
+                    }
+                    console.log(request);
+                    settings.jqXHR = $.ajax( {
+                        "type":     conf.method,
+                        "url":      conf.url,
+                        "data":     request,
+                        "dataType": "json",
+                        "cache":    false,
+                        "success":  function ( json ) {
+                            cacheLastJson = $.extend(true, {}, json);
+         
+                            if ( cacheLower != drawStart ) {
+                                json.data.splice( 0, drawStart-cacheLower );
+                            }
+                            if ( requestLength >= -1 ) {
+                                json.data.splice( requestLength, json.data.length );
+                            }
+                            
+                            drawCallback( json );
+                        }
+                    } );
+                }
+                else {
+                    json = $.extend( true, {}, cacheLastJson );
+                    json.draw = request.draw; // Update the echo for each response
+                    json.data.splice( 0, requestStart-cacheLower );
+                    json.data.splice( requestLength, json.data.length );
+                    
+                    drawCallback(json);
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
