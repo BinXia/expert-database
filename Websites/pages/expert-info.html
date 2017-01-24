@@ -54,22 +54,22 @@
                     <div class="panel-body">
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>姓名：</label>
-                            <input class="col-sm-12" type="text" id="name">
+                            <input class="col-sm-12" type="text" id="name" placeholder="请输入姓名">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>身份证号:</label>
-                            <input class="col-sm-12" type="text" id="code">
+                            <input class="col-sm-12" type="text" id="code" placeholder="请输入身份证号">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>联系电话:</label>
-                            <input class="col-sm-12" type="text" id="phone">
+                            <input class="col-sm-12" type="text" id="phone" placeholder="请输入联系电话">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>电子邮箱:</label>
-                            <input class="col-sm-12" type="text" id="email">
+                            <input class="col-sm-12" type="text" id="email" placeholder="请输入电子邮箱">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
@@ -99,7 +99,7 @@
 
                         <div class="col-sm-9 margin" style="margin-top:10px">
                             <label>备注：</label>
-                            <input class="col-sm-12" type="text" id="remark">
+                            <input class="col-sm-12" type="text" id="remark" placeholder="请输入备注">
                         </div>
 
                         <div class="col-sm-12 margin" style="margin-top:15px">
@@ -117,7 +117,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">专家基础信息列表</div>
                     <div class="panel-body">
-                        <table id="PaperCollectionList" class="display" cellspacing="0" width="100%">
+                        <table id="expertList" class="display" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
                                     <!-- <th>First name</th> -->
@@ -190,7 +190,8 @@
             educationCombobox,      //学历下拉框
             domainCombobox,         //专业下拉框
             operationCombobox,      //操作类型下拉框
-            expertList;             //专家信息列表
+            expertList,             //专家信息列表
+            record_id = 0;          //序号
 
         var opts = {
               lines: 9                      // The number of lines to draw
@@ -223,9 +224,11 @@
             initUnit();
             initDuty();
             initEducation();
+            initDomain();
 
             initOperation();
 
+            initExpertList();
         })
 
 
@@ -316,10 +319,10 @@
             });
         }
 
-        // 初始化学位列表
-        function initEducation(){
-            educationCombobox = $('#education').magicSuggest({
-                displayField: 'education',
+        // 初始化专业列表
+        function initDomain(){
+            domainCombobox = $('#domain').magicSuggest({
+                displayField: 'domain',
                 valueField: 'id',
                 toggleOnClick: true,
                 resultAsString: true,
@@ -330,21 +333,20 @@
                 useTabKey: true,
                 useZebraStyle: true,
                 maxSelection: 1,
-                placeholder: '请输入学位（学历）信息',
+                placeholder: '请输入专业（产业领域）信息',
             });
             url = host+":"+port + "/operation/PullComboInfo";
-            $.getJSON(url,{'type':'education'},function(data){
+            $.getJSON(url,{'type':'domain'},function(data){
                 /* data structure
                 {
                     'id':1,
-                    'education':'博士'
+                    'domain':'新能源'
                 }
                 data structure END */
-                educationCombobox.setData(data);
-                // educationCombobox.setValue([1]);
+                domainCombobox.setData(data);
+                // domainCombobox.setValue([1]);
             });
         }
-        
 
         // 初始化操作类型列表
         function initOperation(){
@@ -367,7 +369,42 @@
             });
         }
 
+        function insertCorrectDatum(){
+            if (operationCombobox.getSelection()[0].name == '新增') {
+                url = host+":"+port + "/operation/InsertDatum";
+                datum = JSON.stringify({'name':$("#name").val(),
+                                        'code':$("#code").val(),
+                                        'phone':$("#phone").val(),
+                                        'email':$("#email").val(),
+                                        'unit':unitCombobox.getSelection()[0].name,
+                                        'duty':dutyCombobox.getSelection()[0].name,
+                                        'education':educationCombobox.getSelection()[0].name,
+                                        'domain':domainCombobox.getSelection()[0].name,
+                                        'remark':$("#remark").val()
+                                    });
 
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: datum,
+                    dataType: 'JSON',
+                    async: false,
+                    cache: false,
+                    contentType: 'application/x-www-form-urlencoded',
+                    processData: true,  
+                    success: function (data) {  
+                        // expertList.destroy();
+                        // initExpertList();
+                    },  
+                    error: function (data) {  
+                        alert("新增记录失败! 错误信息: " + data.statusText);
+                    }  
+                })
+            }
+            else if (operationCombobox.getSelection()[0].name == '修改') {
+
+            }
+        }
 
 
 
@@ -387,11 +424,15 @@
             }
             else{
                 // loading sign
-                loadingSign();
-                // insert datum
-                setInterval(insertDatum,1);
+                // loadingSign();
+                insertCorrectDatum();
+                
             }
         })
+
+
+
+
 
         $("#RefreshTable").click(function(){
             expertList.destroy();
@@ -413,25 +454,25 @@
 
 
         // 初始化原纸信息采集列表
-        function initPaperCollectionList(){
-            PaperCollectionList = $('#PaperCollectionList').DataTable( {
+        function initExpertList(){
+            expertList = $('#expertList').DataTable( {
                 "processing": true,
                 "serverSide": true,
                 // "scrollX": true,
                 "searchDelay": 1000,
                 "columns": [
-                    {"data":0, "name":"PurchaseDate"},
-                    {"data":1, "name":"PurchaseType"},
-                    {"data":2, "name":"Subsidiary"},
-                    {"data":3, "name":"Brand"},
-                    {"data":4, "name":"Branch"},
-                    {"data":5, "name":"Level"},
-                    {"data":6, "name":"PaperCode"},
-                    {"data":7, "name":"Price"}
+                    {"data":0, "name":"name"},
+                    {"data":1, "name":"code"},
+                    {"data":2, "name":"phone"},
+                    {"data":3, "name":"email"},
+                    {"data":4, "name":"unit"},
+                    {"data":5, "name":"duty"},
+                    {"data":6, "name":"education"},
+                    {"data":7, "name":"domain"},
+                    {"data":8, "name":"remark"}
                 ],
                 "ajax": $.fn.dataTable.pipeline({
-                    // url: 'https://datatables.net/examples/server_side/scripts/server_processing.php',
-                    url: './server_processing.php',
+                    url: host+":"+port+"/operation/ShowExpertList",
                     pages: 1 // number of pages to cache
                 })
             });
@@ -467,13 +508,10 @@
             return function (request, drawCallback, settings) {
 
                 // redefine the format of request
-                // for (var i = 0; i < request.columns.length; i++) {
-                //     delete request.columns[i].search;
-                // };
-                // delete request.draw;
+                for (var i = 0; i < request.columns.length; i++) {
+                    delete request.columns[i].search;
+                };
 
-                console.log(request);
-                console.log(settings);
 
                 var ajax          = false;
                 var requestStart  = request.start;
@@ -535,7 +573,7 @@
                     settings.jqXHR = $.ajax({
                         "type":     conf.method,
                         "url":      conf.url,
-                        "data":     request,
+                        "data":     JSON.stringify(request),
                         "dataType": "json",
                         "cache":    false,
                         "contentType": 'application/x-www-form-urlencoded',

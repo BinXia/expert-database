@@ -79,8 +79,8 @@ DATABASES = {
         'NAME': 'expertYC',
         'USER': 'expertYC',
         'PASSWORD': 'expertYC',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'HOST': 'localhost',
+        'PORT': 3306,
     }
 }
 
