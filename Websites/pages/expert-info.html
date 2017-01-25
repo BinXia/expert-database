@@ -54,22 +54,22 @@
                     <div class="panel-body">
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>姓名：</label>
-                            <input class="col-sm-12" type="text" id="name" placeholder="请输入姓名">
+                            <input class="col-sm-12" type="text" id="name">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>身份证号:</label>
-                            <input class="col-sm-12" type="text" id="code" placeholder="请输入身份证号">
+                            <input class="col-sm-12" type="text" id="code">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>联系电话:</label>
-                            <input class="col-sm-12" type="text" id="phone" placeholder="请输入联系电话">
+                            <input class="col-sm-12" type="text" id="phone">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
                             <label>电子邮箱:</label>
-                            <input class="col-sm-12" type="text" id="email" placeholder="请输入电子邮箱">
+                            <input class="col-sm-12" type="text" id="email">
                         </div>
 
                         <div class="col-sm-3 margin" style="margin-top:10px">
@@ -99,15 +99,15 @@
 
                         <div class="col-sm-9 margin" style="margin-top:10px">
                             <label>备注：</label>
-                            <input class="col-sm-12" type="text" id="remark" placeholder="请输入备注">
+                            <input class="col-sm-12" type="text" id="remark">
                         </div>
 
                         <div class="col-sm-12 margin" style="margin-top:15px">
-                            <center>
-                                <button id="RefreshTable" type="button" class="btn btn-primary" style="width:20%">刷新列表</button>
-                                <button id="Submit" type="button" class="btn btn-primary" style="width:20%">提交</button>
-                                <button id="BatchUpload" type="button" class="btn btn-primary" style="width:20%">批量上传</button>
-                            </center>
+                            <!-- <center> -->
+                                <button id="RefreshTable" type="button" class="btn btn-info" style="width:10%">刷新列表</button>
+                                <button id="Submit" type="button" class="btn btn-primary" style="width:10%">提交</button>
+                                <button id="BatchUpload" type="button" class="btn btn-warning" style="width:10%">批量上传</button>
+                            <!-- </center> -->
                         </div>
                     </div>
                 </div>
@@ -117,10 +117,15 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">专家基础信息列表</div>
                     <div class="panel-body">
+                        <div class="col-sm-12 margin" style="margin-bottom:15px">
+                            <button id="multi-select" type="button" class="btn btn-default" style="width:10%">多选</button>
+                            <button id="delete" type="button" class="btn btn-danger" style="width:10%">删除</button>
+                        </div>
+
                         <table id="expertList" class="display" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <!-- <th>First name</th> -->
+                                    <th>序号</th>
                                     <th>姓名</th>
                                     <th>身份证号</th>
                                     <th>联系电话</th>
@@ -134,7 +139,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <!-- <th>First name</th> -->
+                                    <th>序号</th>
                                     <th>姓名</th>
                                     <th>身份证号</th>
                                     <th>联系电话</th>
@@ -193,6 +198,8 @@
             expertList,             //专家信息列表
             record_id = 0;          //序号
 
+        var isMultisel = false;     //多选按钮激活状态
+
         var opts = {
               lines: 9                      // The number of lines to draw
             , length: 28                    // The length of each line
@@ -225,12 +232,31 @@
             initDuty();
             initEducation();
             initDomain();
-
             initOperation();
 
             initExpertList();
-        })
 
+
+
+
+            // 监听表格点击事件
+            $('#expertList tbody').on( 'click', 'tr', function () {
+                // 单选为修改模式
+                if (isMultisel == false) {
+                    expertList.$('tr.selected').removeClass('selected');
+                    // $(this).addClass('selected');
+                    $(this).toggleClass('selected');
+                    refillForm();
+                }
+                // 多选为删除模式
+                else {
+                    $(this).toggleClass('selected');
+                }
+            })
+
+
+
+        })
 
         // 初始化单位列表
         function initUnit(){
@@ -246,7 +272,7 @@
                 useTabKey: true,
                 useZebraStyle: true,
                 maxSelection: 1,
-                placeholder: '请输入单位信息',
+                placeholder: " "
             });
             url = host+":"+port + "/operation/PullComboInfo";
             $.getJSON(url,{'type':'unit'},function(data){
@@ -261,7 +287,7 @@
             });
         }
 
-        // 初始化单位列表
+        // 初始化职务列表
         function initDuty(){
             dutyCombobox = $('#duty').magicSuggest({
                 displayField: 'duty',
@@ -275,7 +301,7 @@
                 useTabKey: true,
                 useZebraStyle: true,
                 maxSelection: 1,
-                placeholder: '请输入职务（职称）信息',
+                placeholder: " "
             });
             url = host+":"+port + "/operation/PullComboInfo";
             $.getJSON(url,{'type':'duty'},function(data){
@@ -304,7 +330,7 @@
                 useTabKey: true,
                 useZebraStyle: true,
                 maxSelection: 1,
-                placeholder: '请输入学位（学历）信息',
+                placeholder: " "
             });
             url = host+":"+port + "/operation/PullComboInfo";
             $.getJSON(url,{'type':'education'},function(data){
@@ -333,7 +359,7 @@
                 useTabKey: true,
                 useZebraStyle: true,
                 maxSelection: 1,
-                placeholder: '请输入专业（产业领域）信息',
+                placeholder: " "
             });
             url = host+":"+port + "/operation/PullComboInfo";
             $.getJSON(url,{'type':'domain'},function(data){
@@ -351,7 +377,7 @@
         // 初始化操作类型列表
         function initOperation(){
             operationCombobox = $('#operation').magicSuggest({
-                data: [{'id':1,'name':'新增'},{'id':2,'name':'修改'}],
+                data: [{'id':1,'name':'新增'}],
                 displayField: 'name',
                 valueField: 'id',
                 toggleOnClick: true,
@@ -360,54 +386,134 @@
                 maxDropHeight: 145,
                 value: [1],
                 autoSelect: true,
-                allowFreeEntries: false,
+                allowFreeEntries: true,
                 useTabKey: true,
                 useZebraStyle: true,
                 maxSelection: 1,
-                placeholder: '请选择操作类型',
-                noSuggestionText: '未找到 {{query}}'
             });
         }
 
+        // 将要修改的记录填到输入框中
+        function refillForm(){
+            var datum = expertList.rows('.selected').data()[0];
+            record_id = datum[0];
+            $("#name").val(datum[1]);
+            $("#code").val(datum[2]);
+            $("#phone").val(datum[3]);
+            $("#email").val(datum[4]);
+            unitCombobox.clear();
+            unitCombobox.setValue([datum[5]]);
+            dutyCombobox.clear();
+            dutyCombobox.setValue([datum[6]]);
+            educationCombobox.clear();
+            educationCombobox.setValue([datum[7]]);
+            domainCombobox.clear();
+            domainCombobox.setValue([datum[8]]);
+            operationCombobox.clear();
+            operationCombobox.setValue(['修改']);
+            $("#remark").val(datum[9]);
+        }
+
+        // 清空并初始化输入框
+        function clearForm(){
+            record_id = 0;
+            $("#name").val('');
+            $("#code").val('');
+            $("#phone").val('');
+            $("#email").val('');
+            unitCombobox.clear();
+            initUnit();
+            dutyCombobox.clear();
+            initDuty();
+            educationCombobox.clear();
+            initEducation();
+            domainCombobox.clear();
+            initDomain();
+            operationCombobox.clear();
+            operationCombobox.setValue(['新增']);
+            $("#remark").val('');
+        }
+
         function insertCorrectDatum(){
+            // 整合提交数据
+            datum = {
+                'name':$("#name").val(),
+                'code':$("#code").val(),
+                'phone':$("#phone").val(),
+                'email':$("#email").val(),
+                'unit':(unitCombobox.getSelection().length!=0)?unitCombobox.getSelection()[0].unit:'无',
+                'duty':(dutyCombobox.getSelection().length!=0)?dutyCombobox.getSelection()[0].duty:'无',
+                'education':(educationCombobox.getSelection().length!=0)?educationCombobox.getSelection()[0].education:'无',
+                'domain':(domainCombobox.getSelection().length!=0)?domainCombobox.getSelection()[0].domain:'无',
+                'remark':($("#remark").val()!="")?$("#remark").val():'无'
+            };
+
+            // 新增一条记录的操作
             if (operationCombobox.getSelection()[0].name == '新增') {
                 url = host+":"+port + "/operation/InsertDatum";
-                datum = JSON.stringify({'name':$("#name").val(),
-                                        'code':$("#code").val(),
-                                        'phone':$("#phone").val(),
-                                        'email':$("#email").val(),
-                                        'unit':unitCombobox.getSelection()[0].name,
-                                        'duty':dutyCombobox.getSelection()[0].name,
-                                        'education':educationCombobox.getSelection()[0].name,
-                                        'domain':domainCombobox.getSelection()[0].name,
-                                        'remark':$("#remark").val()
-                                    });
-
                 $.ajax({
                     url: url,
                     type: 'post',
-                    data: datum,
+                    data: JSON.stringify(datum),
                     dataType: 'JSON',
                     async: false,
                     cache: false,
                     contentType: 'application/x-www-form-urlencoded',
                     processData: true,  
-                    success: function (data) {  
-                        // expertList.destroy();
-                        // initExpertList();
-                    },  
-                    error: function (data) {  
-                        alert("新增记录失败! 错误信息: " + data.statusText);
-                    }  
+                    success: function (data) {
+                        if (data.msg == 'OK') {
+                            expertList.destroy();
+                            initExpertList();
+                            alert("新增记录成功！");
+                            clearForm();
+                        }
+                        else {
+                            alert("新增记录失败! 错误信息: " + data.msg);
+                        }
+                    } 
                 })
             }
+            // 修改一条记录的操作
             else if (operationCombobox.getSelection()[0].name == '修改') {
-
+                datum.id = record_id;
+                url = host+":"+port + "/operation/CorrectDatum";
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: JSON.stringify(datum),
+                    dataType: 'JSON',
+                    async: false,
+                    cache: false,
+                    contentType: 'application/x-www-form-urlencoded',
+                    processData: true,  
+                    success: function (data) {
+                        if (data.msg == 'OK') {
+                            expertList.destroy();
+                            initExpertList();
+                            alert("修改记录成功！");
+                            clearForm();
+                        }
+                        else {
+                            alert("修改记录失败! 错误信息: " + data.msg);
+                        }
+                    } 
+                })
             }
+            // 如果不是新增也不是修改，那么说明走错了通道
+            else {
+                alert("请选择正确的操作类型（”新增“或”修改“）");
+            }
+
+            loadingSignStop();
         }
 
+        // ”刷新列表“事务
+        $("#RefreshTable").click(function(){
+            expertList.destroy();
+            initExpertList();
+        })
 
-
+        // "提交"事务
         $("#Submit").click(function(){
             // check all inputs
             if ($('#name').val().length == 0) {
@@ -424,52 +530,90 @@
             }
             else{
                 // loading sign
-                // loadingSign();
+                loadingSign();
                 insertCorrectDatum();
-                
+            }
+        })
+
+        // ”多选“按钮事务
+        $("#multi-select").click(function(){
+            isMultisel = !isMultisel;
+            if (isMultisel) {
+                $(this).addClass("active");
+                $(this).text("取消多选");
+                expertList.$('tr.selected').removeClass('selected');
+            }
+            else{
+                $(this).removeClass("active");
+                $(this).text("多选");
+                expertList.$('tr.selected').removeClass('selected');
             }
         })
 
 
 
+        // ”删除“按钮事务
+        $("#delete").click(function(){
+            if (expertList.rows('.selected').data().length == 0) {
+                alert("请选择删除条目！");
+            }
+            else {
+                var se=confirm("删除"+ expertList.rows('.selected').data().length +"条记录?");
+                if (se==true){
+                    $("#multi-select").removeClass("active");
+                    $("#multi-select").text("多选");
 
 
-        $("#RefreshTable").click(function(){
-            expertList.destroy();
-            initExpertList();
+                    record_id = new Array();
+                    for (var i = 0; i < expertList.rows('.selected').data().length; i++) {
+                        record_id[i] = expertList.rows('.selected').data()[i][0];
+                    }
+                    datum = {'record_id':record_id}
+                    url = host+":"+port + "/operation/DeleteDatum";
+                    $.ajax({
+                        url: url,
+                        type: 'post',
+                        data: JSON.stringify(record_id),
+                        dataType: 'JSON',
+                        async: false,
+                        cache: false,
+                        contentType: 'application/x-www-form-urlencoded',
+                        processData: true,  
+                        success: function (data) {
+                            if (data.msg == 'OK') {
+                                expertList.destroy();
+                                initExpertList();
+                                alert("删除记录成功！");
+                            }
+                            else {
+                                alert("删除记录失败! 错误信息: " + data.msg);
+                            }
+                        } 
+                    })
+                }
+            }  
         })
-        
-        
-
-        
 
 
 
-
-
-
-
-
-
-
-
-        // 初始化原纸信息采集列表
+        // 初始化专家信息列表
         function initExpertList(){
             expertList = $('#expertList').DataTable( {
                 "processing": true,
                 "serverSide": true,
-                // "scrollX": true,
+                "scrollX": true,
                 "searchDelay": 1000,
                 "columns": [
-                    {"data":0, "name":"name"},
-                    {"data":1, "name":"code"},
-                    {"data":2, "name":"phone"},
-                    {"data":3, "name":"email"},
-                    {"data":4, "name":"unit"},
-                    {"data":5, "name":"duty"},
-                    {"data":6, "name":"education"},
-                    {"data":7, "name":"domain"},
-                    {"data":8, "name":"remark"}
+                    {"data":0, "name":"id", "visible":false, "searchable":false},
+                    {"data":1, "name":"name"},
+                    {"data":2, "name":"code"},
+                    {"data":3, "name":"phone"},
+                    {"data":4, "name":"email"},
+                    {"data":5, "name":"unit"},
+                    {"data":6, "name":"duty"},
+                    {"data":7, "name":"education"},
+                    {"data":8, "name":"domain"},
+                    {"data":9, "name":"remark"}
                 ],
                 "ajax": $.fn.dataTable.pipeline({
                     url: host+":"+port+"/operation/ShowExpertList",

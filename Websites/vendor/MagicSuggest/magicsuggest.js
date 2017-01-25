@@ -234,12 +234,12 @@
             /**
              * The text displayed when there are no suggestions.
              */
-            noSuggestionText: 'No suggestions',
+            noSuggestionText: ' ',
 
             /**
              * The default placeholder text when nothing has been entered
              */
-            placeholder: 'Type or click here',
+            placeholder: ' ',
 
             /**
              * A function used to define how the items will be presented in the combo
