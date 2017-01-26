@@ -2,8 +2,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.files.base import ContentFile
 
 import json
+import xlrd
 from apps import dbconn
 
 
@@ -251,7 +253,52 @@ def DeleteDatum(request):
 		return response
 
 
+@csrf_exempt
+def UploadFile(request):
+	try:
+		respondData = dict()
+		respondData['ln'] = 0
+		workbook = xlrd.open_workbook(file_contents=request.FILES['preUploadFile'].read())
+		table = workbook.sheets()[0]
+		data = list()
 
+		if table.row_values(0)[0].encode('UTF-8') != '南京邮电大学盐城大数据研究院专家批量上传模板':
+			respondData['msg'] = '请使用系统提供的模板，谢谢！'
+		elif table.nrows <= 2:
+			respondData['msg'] = '请上传有数据的模板，谢谢！'
+		else:
+			for i in xrange(2,table.nrows):
+				datum = map(lambda x:x.encode('UTF-8') if type(x) != float else int(x),table.row_values(i))
+				datum = "(NULL,\'"+'\',\''.join(map(str,datum))+"\')"
+				data.append(datum)
+				respondData['ln'] += 1
+			
+			# insert data
+			database = dbconn()
+			cursor = database.cursor()
+
+			cursor.execute('INSERT INTO experts VALUES {0}'.format(
+				','.join(data)
+				)
+			)
+
+			database.commit()
+
+			respondData['msg'] = 'OK'
+
+			cursor.close()
+			database.close()
+
+		message = json.dumps(respondData)
+		response = HttpResponse(message,content_type='application/json')
+		response['Access-Control-Allow-Origin'] = '*'
+		return response
+
+	except Exception, e:
+		print e
+		response = HttpResponse(json.dumps({"msg":e}),content_type='application/json')
+		response['Access-Control-Allow-Origin'] = '*'
+		return response
 
 
 

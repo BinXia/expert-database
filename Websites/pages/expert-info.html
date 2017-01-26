@@ -47,8 +47,8 @@
         </div>
         <!-- /.row -->
 
-        <div class="row" style="padding: 0 0 0 15px">
-            <div class="col-sm-12" id="ControlPanel">
+        <div id="ControlPanel" class="row" style="padding: 0 0 0 15px">
+            <div class="col-sm-12">
                 <div class="panel panel-info">
                     <div class="panel-heading">专家基础信息</div>
                     <div class="panel-body">
@@ -107,6 +107,32 @@
                                 <button id="RefreshTable" type="button" class="btn btn-info" style="width:10%">刷新列表</button>
                                 <button id="Submit" type="button" class="btn btn-primary" style="width:10%">提交</button>
                                 <button id="BatchUpload" type="button" class="btn btn-warning" style="width:10%">批量上传</button>
+
+                                <div class="modal fade" id="BatchUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">文件上传</h5>
+                                        <button id="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+
+                                      <div class="modal-body">
+                                        <form id="uploadFileForm" method="post" enctype="multipart/form-data">
+                                            <input id="preUploadFile" type="file" name="preUploadFile" accept="application/vnd.ms-excel"/>
+                                        </form>
+                                      </div>
+
+                                      <div class="modal-footer">
+                                        <a id="downloadTemplate" type="button" class="btn" href="#">下载模板</a>
+                                        <button id="uploadFile" type="button" class="btn btn-primary">上传文件</button>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
                             <!-- </center> -->
                         </div>
                     </div>
@@ -504,13 +530,15 @@
                 alert("请选择正确的操作类型（”新增“或”修改“）");
             }
 
-            loadingSignStop();
+            loadingSignStop("ControlPanel");
         }
 
         // ”刷新列表“事务
         $("#RefreshTable").click(function(){
+            loadingSign("ControlPanel");
             expertList.destroy();
             initExpertList();
+            loadingSignStop("ControlPanel");
         })
 
         // "提交"事务
@@ -530,10 +558,65 @@
             }
             else{
                 // loading sign
-                loadingSign();
+                loadingSign("ControlPanel");
                 insertCorrectDatum();
             }
         })
+
+        // "批量上传"按钮事务
+        $("#BatchUpload").click(function(){
+            $('#BatchUploadModal').modal({
+                backdrop: false,
+                keyboard: false
+            })
+        })
+
+        // "上传文件"按钮事务
+        $("#uploadFile").click(function(){
+
+            var file = document.getElementById("preUploadFile");
+
+            if (file.value!="") {
+                var formData = new FormData($("#uploadFileForm")[0]);
+                url = host+":"+port + "/operation/UploadFile";
+                
+                // 给所有按钮加锁
+                loadingSign("BatchUploadModal");
+                
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: formData,
+                    dataType: 'JSON',
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.msg == 'OK') {
+                            expertList.destroy();
+                            initExpertList();
+                            alert("批量新增"+data.ln+"条记录成功！");
+                            loadingSignStop("BatchUploadModal");
+                            $("#closeModal").click();
+                        }
+                        else {
+                            alert("批量新增失败! 错误信息: " + data.msg);
+                            loadingSignStop("BatchUploadModal");
+                        }
+                    },
+                    error: function(data){
+                        alert("Upload Error! Error message:" + data.statusText);
+                        loadingSignStop("BatchUploadModal");
+                    }
+                })
+                
+            }
+            else {
+                alert("请选择上传文件！");
+            }
+        })
+
 
         // ”多选“按钮事务
         $("#multi-select").click(function(){
@@ -748,14 +831,14 @@
             }
         }
 
-        function loadingSign(){
-            var target = document.getElementById('ControlPanel');
+        function loadingSign(panelName){
+            var target = document.getElementById(panelName);
             spinner = new Spinner(opts).spin(target);
-            $("#ControlPanel *").prop('disabled',true);
+            $("#"+panelName+" *").prop('disabled',true);
         }
 
-        function loadingSignStop(){
-            $("#ControlPanel *").prop('disabled',false);
+        function loadingSignStop(panelName){
+            $("#"+panelName+" *").prop('disabled',false);
             if (typeof spinner != 'undefined') {
                 spinner.stop();
             };
